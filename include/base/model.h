@@ -1,0 +1,31 @@
+#pragma once
+
+#include <unordered_map>
+
+#include "assimp/cimport.h"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
+#include "assimp/matrix4x4.h"
+#pragma comment (lib, "assimp-vc143-mt.lib")
+
+
+
+struct MODEL
+{
+	const aiScene* AiScene = nullptr;
+
+	ID3D11Buffer** VertexBuffer;
+	ID3D11Buffer** IndexBuffer;
+
+	ID3D11Buffer** VertexBufferShadow;
+
+	std::unordered_map<std::string, ID3D11ShaderResourceView*> Texture;
+};
+
+MODEL* ModelLoad(const char* FileName);
+void ModelRelease(MODEL* model);
+void ModelDraw(MODEL* model);
+void ModelDrawInstanced(MODEL* model, ID3D11Buffer* instanceBuffer, UINT instanceCount);
+
+void ModelDrawShadow(MODEL* model);
+
